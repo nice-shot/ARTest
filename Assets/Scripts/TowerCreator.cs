@@ -39,6 +39,7 @@ public class TowerCreator : MonoBehaviour, ITrackableEventHandler {
         if  (!createdFirstTower && wasDetected) {
             // Create tower in the middle of map
             BuildTower(transform.position, transform.rotation);
+            createdFirstTower = true;
         }
     }
 
