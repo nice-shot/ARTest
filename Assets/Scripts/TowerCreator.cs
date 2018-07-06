@@ -52,7 +52,14 @@ public class TowerCreator : MonoBehaviour, ITrackableEventHandler {
         // Remove all towers but the first one
         while(towers.Count > 1) {
             GameObject tower = towers.Pop();
-            Destroy(tower);
+            TowerController towerController = tower.GetComponent<TowerController>();
+
+            // Try to use the nice destruction with sound
+            if (towerController) {
+                towerController.Disappear();
+            } else {
+                Destroy(tower);
+            }
         }
     }
 

@@ -297,3 +297,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c42b5833d1e2e4d9a16a2384ae297f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dissappearClip: {fileID: 8300000, guid: 8eea2a09b83184f42bbb10e25a73bcca, type: 3}
+  maxTimeToDissappear: 1
