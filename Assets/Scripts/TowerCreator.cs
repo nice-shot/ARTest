@@ -8,6 +8,7 @@ public class TowerCreator : MonoBehaviour, ITrackableEventHandler {
 
     private bool createdFirstTower = false;
     private TrackableBehaviour mTrackableBehavior;
+    private Stack<GameObject> towers = new Stack<GameObject>();
 
     void Start() {
         mTrackableBehavior = GetComponent<TrackableBehaviour>();
@@ -40,8 +41,16 @@ public class TowerCreator : MonoBehaviour, ITrackableEventHandler {
     }
 
     private void BuildTower(Vector3 position, Quaternion rotation) {
-        Debug.Log("Creating tower in: " + position);
         GameObject tower = (GameObject)Instantiate(TowerPrefab, position, rotation, this.transform);
+        towers.Push(tower);
+    }
+
+    public void Reset() {
+        // Remove all towers but the first one
+        while(towers.Count > 1) {
+            GameObject tower = towers.Pop();
+            Destroy(tower);
+        }
     }
 
 }
