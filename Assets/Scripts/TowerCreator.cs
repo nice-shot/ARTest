@@ -23,7 +23,9 @@ public class TowerCreator : MonoBehaviour, ITrackableEventHandler {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform == this.transform) {
-                    BuildTower(hit.point, Quaternion.identity);
+                    // Change the tower's rotation to add variety
+                    Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+                    BuildTower(hit.point, rotation);
                 }
             }
         }
