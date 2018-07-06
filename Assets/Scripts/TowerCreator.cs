@@ -6,6 +6,7 @@ using Vuforia;
 public class TowerCreator : MonoBehaviour, ITrackableEventHandler {
     public GameObject TowerPrefab;
 
+    private bool createdFirstTower = false;
     private TrackableBehaviour mTrackableBehavior;
 
     void Start() {
@@ -20,25 +21,27 @@ public class TowerCreator : MonoBehaviour, ITrackableEventHandler {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit)) {
-
+                if (hit.transform == this.transform) {
+                    BuildTower(hit.point, Quaternion.identity);
+                }
             }
         }
     }
 
     public void OnTrackableStateChanged(TrackableBehaviour.Status previousStatus,
                                         TrackableBehaviour.Status newStatus) {
-        if (newStatus == TrackableBehaviour.Status.DETECTED ||
-            newStatus == TrackableBehaviour.Status.TRACKED ||
-            newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
-            Debug.Log("Found image!");
+        bool wasDetected = (newStatus == TrackableBehaviour.Status.DETECTED ||
+                            newStatus == TrackableBehaviour.Status.TRACKED ||
+                            newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED);
+        if  (!createdFirstTower && wasDetected) {
             // Create tower in the middle of map
-            //Instantiate(TowerPrefab, this.transform, false);
             BuildTower(transform.position, transform.rotation);
         }
     }
 
     private void BuildTower(Vector3 position, Quaternion rotation) {
-        Instantiate(TowerPrefab, position, rotation, this.transform);
+        Debug.Log("Creating tower in: " + position);
+        GameObject tower = (GameObject)Instantiate(TowerPrefab, position, rotation, this.transform);
     }
 
 }
